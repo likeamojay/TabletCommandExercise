@@ -13,31 +13,41 @@ struct ExpensesView: View {
     @State private var alertInfo: AlertInfo?
 
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .onAppear {
-            Task {
-                do {
-                    try await viewModel.fetchExpenses()
-                } catch let urlError as URLError {
-                    alertInfo = self.alertInfo(for: urlError)
-                } catch let decodingError as DecodingError {
-                    alertInfo = AlertInfo(title: "JSON Parse Error", message: "\(decodingError)")
+        NavigationStack {
+            VStack {
+                if viewModel.expenses.isEmpty && viewModel.isBusy {
+                    Text("Loading...")
+                        .font(.largeTitle)
+                } else if viewModel.expenses.isEmpty {
+                    Text("Nothing Found")
+                        .font(.largeTitle)
+                } else {
+                    List(viewModel.expenses, id: \.paid) { expense in
+                        ExpenseRow(expense: expense)
+                    }
                 }
             }
+            .onAppear {
+                Task {
+                    do {
+                        try await viewModel.fetchExpenses()
+                    } catch let urlError as URLError {
+                        alertInfo = self.alertInfo(for: urlError)
+                    } catch let decodingError as DecodingError {
+                        alertInfo = AlertInfo(title: "JSON Parse Error", message: "\(decodingError)")
+                    }
+                }
+            }
+            .alert(item: $alertInfo) { info in
+                Alert(
+                    title: Text(info.title),
+                    message: Text(info.message),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
+            .navigationTitle("Expenses")
+            .padding()
         }
-        .alert(item: $alertInfo) { info in
-            Alert(
-                title: Text(info.title),
-                message: Text(info.message),
-                dismissButton: .default(Text("OK"))
-            )
-        }
-        .padding()
     }
     
     // MARK: - Helpers
