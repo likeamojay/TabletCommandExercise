@@ -46,7 +46,6 @@ struct ExpensesView: View {
                 )
             }
             .navigationTitle("Expenses")
-            .padding()
         }
     }
     
@@ -64,6 +63,26 @@ struct ExpensesView: View {
     }
 }
 
+
+// MARK: - Row
+
+struct ExpenseRow: View {
+    
+    var expense: Expense
+
+    var body: some View {
+        HStack {
+            TopLeadingCornerTriangle()
+                .frame(width: 20, height: 20)
+                .foregroundStyle(expense.color)
+            Text(expense.shop)
+            Spacer()
+            Text(expense.dollarAmount)
+        }
+    }
+}
+
+
 // MARK: - AlertInfo
 
 private struct AlertInfo: Identifiable {
@@ -71,6 +90,8 @@ private struct AlertInfo: Identifiable {
     let title: String
     let message: String
 }
+
+
 
 #Preview {
     ExpensesView()

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Expense: Codable {
     let date: Date // Assumes ISO-8601 format
@@ -48,5 +49,26 @@ struct Expense: Codable {
         self.paymentType = try container.decode(String.self, forKey: .paymentType)
 
         self.items = try container.decode([ExpenseItem].self, forKey: .items)
+    }
+}
+
+// MARK: - Helpers
+
+extension Expense {
+    var color: Color {
+        if paid < 25 {
+            return .green
+        } else if paid < 100 {
+            return .yellow
+        } else {
+            return .red
+        }
+    }
+    
+    var dollarAmount: String {
+        let formatter = NumberFormatter()
+        formatter.currencyCode = "USD"
+        formatter.numberStyle = .currency
+        return formatter.string(from: NSNumber(floatLiteral: self.paid)) ?? "$0.00"
     }
 }
