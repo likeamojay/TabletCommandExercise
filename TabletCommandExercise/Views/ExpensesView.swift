@@ -24,7 +24,8 @@ struct ExpensesView: View {
                 } else {
                     List(viewModel.expenses, id: \.paid) { expense in
                         ExpenseRow(expense: expense)
-                    }
+                            .listRowInsets(.init())
+                    }.listStyle(.plain)
                 }
             }
             .onAppear {
@@ -64,20 +65,24 @@ struct ExpensesView: View {
 }
 
 
-// MARK: - Row
+// MARK: - List Row
 
 struct ExpenseRow: View {
     
     var expense: Expense
 
     var body: some View {
-        HStack {
-            TopLeadingCornerTriangle()
-                .frame(width: 20, height: 20)
-                .foregroundStyle(expense.color)
+        HStack() {
+            VStack(alignment: .leading) {
+                TopLeadingCornerTriangle()
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(expense.color)
+                Spacer()
+            }
             Text(expense.shop)
             Spacer()
             Text(expense.dollarAmount)
+                .padding()
         }
     }
 }
