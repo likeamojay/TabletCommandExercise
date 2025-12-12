@@ -23,9 +23,17 @@ struct ExpensesView: View {
                         .font(.largeTitle)
                 } else {
                     List(viewModel.expenses, id: \.paid) { expense in
-                        ExpenseRow(expense: expense)
-                            .listRowInsets(.init())
-                    }.listStyle(.plain)
+                        NavigationLink {
+                            ExpenseItemsView(expense: expense)
+                        } label: {
+                            ExpenseRow(expense: expense)
+                                .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .listRowInsets(.init())
+                    }
+                    .listStyle(.plain)
+                    .padding(.trailing)
                 }
             }
             .onAppear {

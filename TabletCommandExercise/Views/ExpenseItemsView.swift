@@ -9,9 +9,40 @@ import SwiftUI
 
 struct ExpenseItemsView: View {
 
-    var expenseItem: ExpenseItem
+    let expense: Expense
 
     var body: some View {
-        Text("Hello, World!")
+        VStack(alignment: .center) {
+            Rectangle()
+                .frame(width: .infinity, height: 2)
+                .foregroundStyle(.black)
+            List(expense.items, id: \.price) { item in
+                ExpenseItemRow(item: item)
+              }
+              .listStyle(.plain)
+            Text("Total: \(expense.totalString)")
+                .font(.largeTitle).bold()
+        }
+        .navigationTitle(expense.shop)
+        .navigationBarTitleDisplayMode(.inline)
     }
+}
+
+// MARK: - List Row
+
+struct ExpenseItemRow: View {
+    
+    let item: ExpenseItem
+    
+    var body: some View {
+        HStack {
+            Text(item.name)
+            Spacer()
+            Text(item.dollarAmount)
+        }
+    }
+}
+
+#Preview {
+    ExpensesView()
 }

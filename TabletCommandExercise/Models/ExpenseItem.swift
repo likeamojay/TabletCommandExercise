@@ -35,3 +35,15 @@ struct ExpenseItem: Codable {
         }
     }
 }
+
+// MARK: - Helpers
+
+extension ExpenseItem {
+    
+    var dollarAmount: String {
+        let formatter = NumberFormatter()
+        formatter.currencyCode = "USD"
+        formatter.numberStyle = .currency
+        return formatter.string(from: NSNumber(floatLiteral: self.price)) ?? "$0.00"
+    }
+}

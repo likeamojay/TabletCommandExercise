@@ -71,4 +71,12 @@ extension Expense {
         formatter.numberStyle = .currency
         return formatter.string(from: NSNumber(floatLiteral: self.paid)) ?? "$0.00"
     }
+    
+    var totalString: String {
+        let total = self.items.compactMap({ $0.price }).reduce(0, +)
+        let formatter = NumberFormatter()
+        formatter.currencyCode = "USD"
+        formatter.numberStyle = .currency
+        return formatter.string(from: NSNumber(floatLiteral: total)) ?? "$0.00"
+    }
 }

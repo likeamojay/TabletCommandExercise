@@ -25,8 +25,7 @@ class ExpenseViewModel: ObservableObject {
             print("fetchExpense() - Loaded from disk")
             return
         }
-        
-        // Build URL
+
         guard let url = URL(string: kUrl) else {
             print("fetchExpenses() - Invalid URL: \(kUrl)")
             throw URLError(.badURL)
