@@ -14,14 +14,16 @@ struct ExpenseItemsView: View {
     var body: some View {
         VStack(alignment: .center) {
             Rectangle()
-                .frame(width: .infinity, height: 2)
+                .frame(maxWidth: .infinity, maxHeight: 2)
                 .foregroundStyle(.black)
-            List(expense.items, id: \.price) { item in
+            List(expense.items, id: \.ean) { item in
                 ExpenseItemRow(item: item)
               }
               .listStyle(.plain)
+            Divider()
             Text("Total: \(expense.totalString)")
                 .font(.largeTitle).bold()
+            Divider()
         }
         .navigationTitle(expense.shop)
         .navigationBarTitleDisplayMode(.inline)

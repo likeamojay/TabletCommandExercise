@@ -43,13 +43,13 @@ struct ExpensesView: View {
                     } catch let urlError as URLError {
                         alertInfo = self.alertInfo(for: urlError)
                     } catch let decodingError as DecodingError {
-                        alertInfo = AlertInfo(title: "JSON Parse Error", message: "\(decodingError)")
+                        alertInfo = AlertInfo(message: " JSON Parse Error: \(decodingError)")
                     }
                 }
             }
             .alert(item: $alertInfo) { info in
                 Alert(
-                    title: Text(info.title),
+                    title: Text("Network Error"),
                     message: Text(info.message),
                     dismissButton: .default(Text("OK"))
                 )
@@ -63,11 +63,11 @@ struct ExpensesView: View {
     private func alertInfo(for urlError: URLError) -> AlertInfo {
         switch urlError.code {
         case .badURL:
-            return AlertInfo(title: "Bad URL", message: "Invalid Request URL.")
+            return AlertInfo(message: "Invalid Request URL.")
         case .badServerResponse:
-            return AlertInfo(title: "Server Error", message: "The server returned an invalid response.")
+            return AlertInfo(message: "The server returned an invalid response.")
         default:
-            return AlertInfo(title: "Error", message: "\(urlError)")
+            return AlertInfo(message: "\(urlError)")
         }
     }
 }
@@ -100,7 +100,6 @@ struct ExpenseRow: View {
 
 private struct AlertInfo: Identifiable {
     let id = UUID()
-    let title: String
     let message: String
 }
 
