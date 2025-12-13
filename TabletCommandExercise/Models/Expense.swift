@@ -8,8 +8,9 @@
 import Foundation
 import SwiftUI
 
-struct Expense: Codable {
-    let date: Date // Assumes ISO-8601 format
+struct Expense: Codable, Identifiable {
+    var id: UUID { return UUID() }
+    let date: Date
     let shop: String
     let paid: Double
     let paymentType: String
@@ -47,7 +48,6 @@ struct Expense: Codable {
         }
 
         self.paymentType = try container.decode(String.self, forKey: .paymentType)
-
         self.items = try container.decode([ExpenseItem].self, forKey: .items)
     }
 }
@@ -70,13 +70,5 @@ extension Expense {
         formatter.currencyCode = "USD"
         formatter.numberStyle = .currency
         return formatter.string(from: NSNumber(floatLiteral: self.paid)) ?? "$0.00"
-    }
-    
-    var totalString: String {
-        let total = self.items.compactMap({ $0.price }).reduce(0, +)
-        let formatter = NumberFormatter()
-        formatter.currencyCode = "USD"
-        formatter.numberStyle = .currency
-        return formatter.string(from: NSNumber(floatLiteral: total)) ?? "$0.00"
     }
 }

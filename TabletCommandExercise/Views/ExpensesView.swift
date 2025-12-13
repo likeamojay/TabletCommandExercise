@@ -22,7 +22,7 @@ struct ExpensesView: View {
                     Text("Nothing Found")
                         .font(.largeTitle)
                 } else {
-                    List(viewModel.expenses, id: \.paid) { expense in
+                    List(viewModel.expenses) { expense in
                         NavigationLink {
                             ExpenseItemsView(expense: expense)
                         } label: {

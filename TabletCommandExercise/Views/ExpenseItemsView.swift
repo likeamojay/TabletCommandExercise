@@ -13,15 +13,12 @@ struct ExpenseItemsView: View {
 
     var body: some View {
         VStack(alignment: .center) {
-            Rectangle()
-                .frame(maxWidth: .infinity, maxHeight: 2)
-                .foregroundStyle(.black)
-            List(expense.items, id: \.ean) { item in
+            List(expense.items) { item in
                 ExpenseItemRow(item: item)
               }
               .listStyle(.plain)
             Divider()
-            Text("Total: \(expense.totalString)")
+            Text("Total: \(expense.dollarAmount)")
                 .font(.largeTitle).bold()
             Divider()
         }

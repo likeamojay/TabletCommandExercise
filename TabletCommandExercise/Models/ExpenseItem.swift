@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct ExpenseItem: Codable {
+struct ExpenseItem: Codable, Identifiable {
+    
+    var id: UUID { return UUID() }
     let name: String
     let ean: Int
     let price: Double
@@ -15,7 +17,6 @@ struct ExpenseItem: Codable {
     private enum CodingKeys: String, CodingKey {
         case name, ean, price
     }
-    
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
