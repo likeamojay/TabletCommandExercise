@@ -29,11 +29,11 @@ struct ExpensesView: View {
                             ExpenseRow(expense: expense)
                                 .contentShape(Rectangle())
                         }
+                        .navigationLinkIndicatorVisibility(.hidden)
                         .buttonStyle(.plain)
                         .listRowInsets(.init())
                     }
                     .listStyle(.plain)
-                    .padding(.trailing)
                 }
             }
             .onAppear {
