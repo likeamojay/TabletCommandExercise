@@ -39,12 +39,12 @@ struct ExpenseItem: Codable, Identifiable {
 
 // MARK: - Helpers
 
-extension ExpenseItem {
+extension Double {
     
     var dollarAmount: String {
         let formatter = NumberFormatter()
         formatter.currencyCode = "USD"
         formatter.numberStyle = .currency
-        return formatter.string(from: NSNumber(floatLiteral: self.price)) ?? "$0.00"
+        return formatter.string(from: NSNumber(floatLiteral: self)) ?? "$0.00"
     }
 }

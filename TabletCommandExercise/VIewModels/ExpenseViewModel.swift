@@ -14,7 +14,7 @@ class ExpenseViewModel: ObservableObject {
     @Published var expenses: [Expense] = []
     @Published var isBusy = false
     
-    private let kUrl = "https://review.tabletcommand.com/interview-mobile/groceries.json"
+    private let kUrl = "https://review.tabletcommand.com/interview-mobile/groceries-1000.json"
 
     func fetchExpenses() async throws {
         isBusy = true
@@ -33,7 +33,7 @@ class ExpenseViewModel: ObservableObject {
         
         let (data, response) = try await URLSession.shared.data(from: url)
         
-        //Utilities.printPrettyJSON(data)
+        Utilities.printPrettyJSON(data)
         
         if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
             print("fetchExpenses() - Server error (status: \(httpResponse.statusCode))")

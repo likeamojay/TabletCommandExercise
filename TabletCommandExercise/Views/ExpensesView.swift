@@ -88,6 +88,7 @@ struct ExpenseRow: View {
                 Spacer()
             }
             Text(expense.shop)
+            Text(expense.dateString)
             Spacer()
             Text(expense.dollarAmount)
                 .padding()

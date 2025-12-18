@@ -30,8 +30,8 @@ struct Expense: Codable, Identifiable {
         let dateString = try container.decode(String.self, forKey: .date)
         
         let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withFractionalSeconds]
-        self.date = dateFormatter.date(from: dateString) ?? Date() // Use today+now as an error state
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        self.date = dateFormatter.date(from: "\(dateString)Z") ?? Date() // Use today+now as an error state
 
         self.shop = try container.decode(String.self, forKey: .shop)
 
@@ -55,10 +55,11 @@ struct Expense: Codable, Identifiable {
 // MARK: - Helpers
 
 extension Expense {
+    
     var color: Color {
         if paid < 25 {
             return .green
-        } else if paid < 100 {
+        } else if paid < 90 {
             return .yellow
         } else {
             return .red
@@ -70,5 +71,18 @@ extension Expense {
         formatter.currencyCode = "USD"
         formatter.numberStyle = .currency
         return formatter.string(from: NSNumber(floatLiteral: self.paid)) ?? "$0.00"
+    }
+    
+    
+    var totalItemsSum: Double {
+        return self.items.map( { $0.price }).reduce(0, +)
+    }
+    
+    var changeDue: Double {
+        return self.paid - self.totalItemsSum
+    }
+    
+    var dateString: String {
+        "\(self.date.ISO8601Format())"
     }
 }

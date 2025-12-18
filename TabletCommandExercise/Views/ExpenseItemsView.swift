@@ -18,8 +18,10 @@ struct ExpenseItemsView: View {
               }
               .listStyle(.plain)
             Divider()
-            Text("Total: \(expense.dollarAmount)")
+            Text("Amount tendered: \(expense.paid.dollarAmount)")
+            Text("Total: \(expense.totalItemsSum.dollarAmount)")
                 .font(.largeTitle).bold()
+            Text("Change due: \(expense.changeDue.dollarAmount)")
             Divider()
         }
         .navigationTitle(expense.shop)
@@ -37,7 +39,7 @@ struct ExpenseItemRow: View {
         HStack {
             Text(item.name)
             Spacer()
-            Text(item.dollarAmount)
+            Text(item.price.dollarAmount)
         }
     }
 }
